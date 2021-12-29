@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-// import CardList from './components/CardList';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
+import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
+import { searchRobots, requestRobots } from './reducers';
+import './index.css';
 import 'tachyons';
-// import { robots } from './robots';
+
+const logger = createLogger();
+
+const rootReducer = combineReducers({ searchRobots, requestRobots })
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger))
 
 ReactDOM.render(
-  <div>
+  <Provider store={store}>
     <App />
-  </div>, 
+  </Provider>, 
   document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function
